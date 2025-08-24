@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReDefine Fitness - Client Testimonial Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #3a3939 0%, #f8f2ea 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(58, 57, 57, 0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3a3939 0%, #2d2c2c 100%);
+            color: #f8f2ea;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #df9959 0%, #e196a8 50%, #df9959 100%);
+        }
+
+        .logo {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(223, 153, 89, 0.1);
+            border: 3px solid #df9959;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .logo-text {
+            color: #df9959;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .header h1 {
+            font-size: 2.4em;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.85;
+            font-weight: 300;
+        }
+
+        .form-content {
+            padding: 50px;
+            background: #f8f2ea;
+        }
+
+        .intro {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 4px solid #df9959;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .intro h2 {
+            color: #3a3939;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            font-weight: 600;
+        }
+
+        .intro p {
+            color: #3a3939;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(223, 153, 89, 0.1) 0%, rgba(225, 150, 168, 0.1) 100%);
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 3px solid #e196a8;
+            margin-top: 20px;
+        }
+
+        .section {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 35px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border-top: 3px solid #3a3939;
+        }
+
+        .section h3 {
+            color: #3a3939;
+            margin-bottom: 30px;
+            font-size: 1.4em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h3::before {
+            content: '';
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(135deg, #df9959, #e196a8);
+            margin-right: 15px;
+            border-radius: 2px;
+        }
+
+        .question-group {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            border-left: 3px solid #df9959;
+        }
+
+        .question-number {
+            color: #df9959;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .question-text {
+            color: #3a3939;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #3a3939;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #df9959;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(223, 153, 89, 0.1);
+        }
+
+        .textarea-group textarea {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            line-height: 1.6;
+        }
+
+        .textarea-group textarea:focus {
+            outline: none;
+            border-color: #df9959;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(223, 153, 89, 0.1);
+        }
+
+        .short-response {
+            min-height: 90px;
+        }
+
+        .list-response {
+            min-height: 140px;
+        }
+
+        .permission-section {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 35px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 2px solid #e196a8;
+        }
+
+        .permission-section h3 {
+            color: #3a3939;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1.4em;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 6px;
+            border-left: 3px solid #df9959;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #df9959;
+            margin-top: 2px;
+        }
+
+        .checkbox-group label {
+            color: #3a3939;
+            font-weight: 500;
+            line-height: 1.6;
+            cursor: pointer;
+        }
+
+        .signature-section {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 2px solid #3a3939;
+        }
+
+        .signature-section h3 {
+            color: #3a3939;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .signature-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .signature-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .signature-line {
+            border-bottom: 2px solid #3a3939;
+            height: 50px;
+            margin-bottom: 12px;
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #3a3939 0%, #2d2c2c 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .print-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(223, 153, 89, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .print-btn:hover::before {
+            left: 100%;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58, 57, 57, 0.3);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .print-btn {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-content {
+                padding: 30px;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .form-group {
+                min-width: 100%;
+            }
+            .signature-row {
+                flex-direction: column;
+            }
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-text">REDEFINE<br>FITNESS</div>
+            </div>
+            <h1>REDEFINE FITNESS</h1>
+            <p>Client Testimonial & Feedback Form</p>
+        </div>
+
+        <div class="form-content">
+            <div class="intro">
+                <h2>Your Voice Matters</h2>
+                <p>Thank you for taking the time to share your experience with ReDefine Fitness. Your honest feedback helps me continuously improve my services and better support future clients on their fitness journeys.</p>
+                
+                <div class="highlight">
+                    <p><strong>Testimonial Usage:</strong> With your permission, I would love to share parts of your feedback as testimonials on my social media platforms and marketing materials. These testimonials help other potential clients understand the value and results they can expect from my services.</p>
+                    <p><strong>Your Privacy:</strong> I will only use your first name and age (if you provide permission below). Your full responses will remain confidential and be used solely for improving my services and creating appropriate testimonials.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Personal Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Age (optional)</label>
+                        <input type="number" id="age" name="age" min="18" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="text" id="email" name="email" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Feedback Questions</h3>
+                
+                <div class="question-group">
+                    <span class="question-number">Question 1</span>
+                    <div class="question-text">What's one thing that you'd like me to start doing?</div>
+                    <div class="textarea-group">
+                        <textarea name="startDoing" placeholder="Please share what you'd like me to start doing differently or additionally..."></textarea>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <span class="question-number">Question 2</span>
+                    <div class="question-text">What's one thing that you'd like me to stop doing?</div>
+                    <div class="textarea-group">
+                        <textarea name="stopDoing" placeholder="Please share what you'd like me to stop doing or do less of..."></textarea>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <span class="question-number">Question 3</span>
+                    <div class="question-text">What's one thing that you'd like me to keep doing?</div>
+                    <div class="textarea-group">
+                        <textarea name="keepDoing" placeholder="Please share what you'd like me to continue doing..."></textarea>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <span class="question-number">Question 4</span>
+                    <div class="question-text">In 3 sentences or less, can you describe any reservations that you had before we started working together?</div>
+                    <div class="textarea-group">
+                        <textarea name="reservations" class="short-response" placeholder="Please describe any concerns, doubts, or hesitations you had initially..."></textarea>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <span class="question-number">Question 5</span>
+                    <div class="question-text">In 3 sentences or less, can you explain how I was able to help you with your reservations?</div>
+                    <div class="textarea-group">
+                        <textarea name="helpWithReservations" class="short-response" placeholder="Please explain how I addressed your concerns or helped overcome your hesitations..."></textarea>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <span class="question-number">Question 6</span>
+                    <div class="question-text">Can you describe your 1-2 top goals when you started?</div>
+                    <div class="textarea-group">
+                        <textarea name="initialGoals" placeholder="Please describe your main fitness or health goals when we began working together..."></textarea>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <span class="question-number">Question 7</span>
+                    <div class="question-text">In point form, can you list your achievements with training thus far?</div>
+                    <div class="textarea-group">
+                        <textarea name="achievements" class="list-response" placeholder="Please list your achievements, progress, and successes. For example:&#10;• Lost 10kg in 3 months&#10;• Increased strength significantly&#10;• Improved confidence&#10;• Better sleep quality"></textarea>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <span class="question-number">Question 8</span>
+                    <div class="question-text">Is there anything else at all that you'd like to add?</div>
+                    <div class="textarea-group">
+                        <textarea name="additionalComments" placeholder="Please share any additional thoughts, experiences, or feedback..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="permission-section">
+                <h3>Testimonial Permission</h3>
+                <p style="color: #3a3939; line-height: 1.7; margin-bottom: 25px;">
+                    Please indicate your permission for me to use your feedback as testimonials for marketing purposes:
+                </p>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="permitTestimonial" name="permitTestimonial">
+                    <label for="permitTestimonial">
+                        <strong>Yes, I give permission</strong> for ReDefine Fitness to use my responses (or parts of them) as testimonials on social media, website, and marketing materials.
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="permitName" name="permitName">
+                    <label for="permitName">
+                        <strong>Yes, I give permission</strong> for ReDefine Fitness to use my first name in testimonials.
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="permitAge" name="permitAge">
+                    <label for="permitAge">
+                        <strong>Yes, I give permission</strong> for ReDefine Fitness to include my age in testimonials.
+                    </label>
+                </div>
+            </div>
+
+            <div class="signature-section">
+                <h3>Declaration & Consent</h3>
+                <p style="color: #3a3939; line-height: 1.7; margin-bottom: 25px; font-weight: 400;">
+                    I confirm that the information provided in this form is accurate and truthful. I understand how my responses may be used and have indicated my permissions accordingly. I acknowledge that providing this feedback is voluntary and I can withdraw my consent for testimonial use at any time by contacting ReDefine Fitness directly.
+                </p>
+                <div class="signature-row">
+                    <div class="signature-group">
+                        <label style="color: #3a3939; font-weight: 600;">Client Signature</label>
+                        <div class="signature-line"></div>
+                    </div>
+                    <div class="signature-group">
+                        <label style="color: #3a3939; font-weight: 600;">Date</label>
+                        <div class="signature-line"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="print-btn" onclick="window.print()">Print Form</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const requiredFields = document.querySelectorAll('input[required]');
+            
+            requiredFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    if (this.value.trim() === '') {
+                        this.style.borderColor = '#e74c3c';
+                        this.style.backgroundColor = '#fdf2f2';
+                    } else {
+                        this.style.borderColor = '#df9959';
+                        this.style.backgroundColor = 'white';
+                    }
+                });
+            });
+
+            // Enhanced focus effects
+            const allInputs = document.querySelectorAll('input, textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.transform = 'scale(1.01)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Character count for limited responses
+            const shortResponses = document.querySelectorAll('.short-response');
+            shortResponses.forEach(textarea => {
+                const maxChars = 300; // Approximate 3 sentences
+                textarea.addEventListener('input', function() {
+                    if (this.value.length > maxChars) {
+                        this.style.borderColor = '#e196a8';
+                    } else {
+                        this.style.borderColor = '#e0e0e0';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
