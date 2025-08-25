@@ -46,8 +46,8 @@
         }
 
         .logo {
-            width: 200px;
-            height: 200px;
+            width: 160px;
+            height: 160px;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
@@ -406,7 +406,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                  <img src="logo-large.png" alt="ReDefine Fitness Logo">
+                <img src="your-logo.png" alt="ReDefine Fitness Logo">
             </div>
             <h1>REDEFINE FITNESS</h1>
             <p>Client Testimonial & Feedback Form</p>
@@ -560,7 +560,7 @@
                 </div>
             </div>
 
-            <button class="print-btn" onclick="handlePrint()">Print Form</button>
+            <button class="print-btn" onclick="window.print()">Print Form</button>
         </div>
     </div>
 
@@ -612,15 +612,6 @@
                 dateInput.value = today;
             }
         });
-
-       // Enhanced print function
-        function handlePrint() {
-            // Simple, reliable print function
-            if (window.print) {
-                window.print();
-            } else {
-                alert('Print function not supported in this browser. Please use Ctrl+P (Windows) or Cmd+P (Mac)');
-            }
     </script>
 </body>
 </html>
