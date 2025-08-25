@@ -46,8 +46,8 @@
         }
 
         .logo {
-            width: 160px;
-            height: 160px;
+            width: 200px;
+            height: 200px;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
@@ -339,33 +339,72 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            display: block;
-            margin: 0 auto;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
+            min-width: 180px;
         }
 
-        .print-btn::before {
+        .submit-btn {
+            background: linear-gradient(135deg, #df9959 0%, #e196a8 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #2c5282 0%, #3182ce 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+        }
+
+        .print-btn::before,
+        .submit-btn::before,
+        .save-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(223, 153, 89, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
 
-        .print-btn:hover::before {
+        .print-btn:hover::before,
+        .submit-btn:hover::before,
+        .save-btn:hover::before {
             left: 100%;
         }
 
-        .print-btn:hover {
+        .print-btn:hover,
+        .submit-btn:hover,
+        .save-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(58, 57, 57, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         @media print {
@@ -382,7 +421,7 @@
             }
         }
 
-        @media (max-width: 768px) {
+                    @media (max-width: 768px) {
             .form-content {
                 padding: 30px;
             }
@@ -398,6 +437,10 @@
             .checkbox-group {
                 flex-direction: column;
                 gap: 10px;
+            }
+            .print-btn, .submit-btn, .save-btn {
+                min-width: 100%;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -415,11 +458,11 @@
         <div class="form-content">
             <div class="intro">
                 <h2>Your Voice Matters</h2>
-                <p>Thank you for taking the time to share your experience with me. Your honest feedback helps me continuously improve my services and better support future clients on their fitness journeys.</p>
+                <p>Thank you for taking the time to share your experience with ReDefine Fitness. Your honest feedback helps me continuously improve my services and better support future clients on their fitness journeys.</p>
                 
                 <div class="highlight">
                     <p><strong>Testimonial Usage:</strong> With your permission, I would love to share parts of your feedback as testimonials on my social media platforms and marketing materials. These testimonials help other potential clients understand the value and results they can expect from my services.</p>
-                    <p><strong>Your Privacy:</strong> I will only use your first name and age (if you provide permission below). Your full responses be used solely for improving my services and creating appropriate testimonials. If there is anything in your response that you would like me to keep private please indicate that in your answer.</p>
+                    <p><strong>Your Privacy:</strong> I will only use your first name and age (if you provide permission below). Your full responses will remain confidential and be used solely for improving my services and creating appropriate testimonials.</p>
                 </div>
             </div>
 
@@ -560,7 +603,11 @@
                 </div>
             </div>
 
-            <button class="print-btn" onclick="window.print()">Print Form</button>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                <button class="print-btn" onclick="handlePrint()">Print Form</button>
+                <button class="submit-btn" onclick="emailForm()">Email Completed Form</button>
+                <button class="save-btn" onclick="saveAsPDF()">Save as PDF</button>
+            </div>
         </div>
     </div>
 
@@ -612,6 +659,111 @@
                 dateInput.value = today;
             }
         });
+
+        // Mobile-friendly print function
+        function handlePrint() {
+            // Check if on mobile device
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // Mobile printing alternatives
+                if (navigator.share) {
+                    // Try Web Share API first
+                    navigator.share({
+                        title: 'ReDefine Fitness - Client Testimonial Form',
+                        text: 'Please print this testimonial form',
+                        url: window.location.href
+                    }).catch(() => {
+                        // Fallback to instructions
+                        showMobileInstructions();
+                    });
+                } else {
+                    // Show mobile print instructions
+                    showMobileInstructions();
+                }
+            } else {
+                // Desktop/PC - use regular print
+                window.print();
+            }
+        }
+
+        // Email form function
+        function emailForm() {
+            const formData = collectFormData();
+            const subject = encodeURIComponent("ReDefine Fitness - Completed Testimonial Form");
+            const body = encodeURIComponent(formData);
+            
+            // Replace with your actual email address
+            const yourEmail = "vawhite.14@gmail.com";
+            
+            // Create mailto link
+            const mailtoLink = `mailto:${yourEmail}?subject=${subject}&body=${body}`;
+            
+            // Try to open email client
+            if (mailtoLink.length < 2048) { // URL length limit
+                window.location.href = mailtoLink;
+            } else {
+                // If too long, show instructions
+                alert("Form data is too large for direct email. Please:\n\n1. Save as PDF using the blue button\n2. Email the PDF file to: " + yourEmail.replace("your-email@redefinefitness.com", "your actual email"));
+            }
+        }
+
+        // Save as PDF function (instructions)
+        function saveAsPDF() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                alert("To save as PDF on mobile:\n\n📱 iPhone: Share → Print → Pinch to zoom → Share as PDF\n🤖 Android: Menu → Print → Save as PDF\n\nThen email the PDF to your trainer!");
+            } else {
+                alert("To save as PDF:\n\n1. Click Print (or use Ctrl+P)\n2. Select 'Save as PDF' as your printer\n3. Save the file\n4. Email the PDF to your trainer!");
+                window.print();
+            }
+        }
+
+        // Collect all form data
+        function collectFormData() {
+            const data = [];
+            data.push("REDEFINE FITNESS - CLIENT TESTIMONIAL FORM");
+            data.push("=====================================\n");
+            
+            // Personal Information
+            data.push("PERSONAL INFORMATION:");
+            data.push(`Name: ${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`);
+            data.push(`Age: ${document.getElementById('age').value || 'Not provided'}`);
+            data.push(`Email: ${document.getElementById('email').value}\n`);
+            
+            // Feedback Questions
+            data.push("FEEDBACK RESPONSES:");
+            const questions = [
+                {name: 'startDoing', label: 'Q1 - What should I start doing?'},
+                {name: 'stopDoing', label: 'Q2 - What should I stop doing?'},
+                {name: 'keepDoing', label: 'Q3 - What should I keep doing?'},
+                {name: 'reservations', label: 'Q4 - Initial reservations:'},
+                {name: 'helpWithReservations', label: 'Q5 - How I helped with reservations:'},
+                {name: 'initialGoals', label: 'Q6 - Your initial goals:'},
+                {name: 'achievements', label: 'Q7 - Your achievements:'},
+                {name: 'additionalComments', label: 'Q8 - Additional comments:'}
+            ];
+            
+            questions.forEach(q => {
+                const value = document.querySelector(`textarea[name="${q.name}"]`).value;
+                if (value.trim()) {
+                    data.push(`${q.label}\n${value}\n`);
+                }
+            });
+            
+            // Permissions
+            data.push("PERMISSIONS:");
+            data.push(`Testimonial use: ${document.getElementById('permitTestimonial').checked ? 'YES' : 'NO'}`);
+            data.push(`Use first name: ${document.getElementById('permitName').checked ? 'YES' : 'NO'}`);
+            data.push(`Include age: ${document.getElementById('permitAge').checked ? 'YES' : 'NO'}`);
+            
+            // Signature
+            data.push(`\nSignature: ${document.querySelector('input[name="clientSignature"]').value}`);
+            data.push(`Date: ${document.querySelector('input[name="signatureDate"]').value}`);
+            
+            return data.join('\n');
+        }
     </script>
 </body>
 </html>
