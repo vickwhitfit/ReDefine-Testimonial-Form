@@ -613,14 +613,14 @@
             }
         });
 
-        // Enhanced print function
+       // Enhanced print function
         function handlePrint() {
-            // Save current values before printing
-            const formData = new FormData(document.querySelector('form') || document.body);
-            
-            // Trigger print dialog
-            window.print();
-        }
+            // Simple, reliable print function
+            if (window.print) {
+                window.print();
+            } else {
+                alert('Print function not supported in this browser. Please use Ctrl+P (Windows) or Cmd+P (Mac)');
+            }
     </script>
 </body>
 </html>
