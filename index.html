@@ -44,8 +44,8 @@
             height: 4px;
             background: linear-gradient(90deg, #df9959 0%, #e196a8 50%, #df9959 100%);
         }
-        
-  .logo {
+
+        .logo {
             width: 200px;
             height: 200px;
             margin: 0 auto 20px;
@@ -309,10 +309,25 @@
             min-width: 250px;
         }
 
-        .signature-line {
+        .signature-input {
+            width: 100%;
+            padding: 14px;
+            border: none;
             border-bottom: 2px solid #3a3939;
-            height: 50px;
-            margin-bottom: 12px;
+            background: transparent;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .signature-input:focus {
+            outline: none;
+            border-bottom-color: #df9959;
+            background: rgba(223, 153, 89, 0.05);
+        }
+
+        .signature-input[type="date"] {
+            font-family: Arial, sans-serif;
         }
 
         .print-btn {
@@ -391,7 +406,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="logo-large.png" alt="ReDefine Fitness Logo" />
+                  <img src="logo-large.png" alt="ReDefine Fitness Logo">
             </div>
             <h1>REDEFINE FITNESS</h1>
             <p>Client Testimonial & Feedback Form</p>
@@ -400,13 +415,12 @@
         <div class="form-content">
             <div class="intro">
                 <h2>Your Voice Matters</h2>
-                <p>Thank you for taking the time to share your experience with me. Your honest feedback helps me continuously improve my services and better support future clients on their fitness journeys.</p>
-                <p>When you are done, please "Print to PDF" and send back to me via email or direct message.</p>
+                <p>Thank you for taking the time to share your experience with ReDefine Fitness. Your honest feedback helps me continuously improve my services and better support future clients on their fitness journeys.</p>
                 
                 <div class="highlight">
                     <p><strong>Testimonial Usage:</strong> With your permission, I would love to share parts of your feedback as testimonials on my social media platforms and marketing materials. These testimonials help other potential clients understand the value and results they can expect from my services.</p>
-                    <p><strong>Your Privacy:</strong> I will only use your first name and age (if you provide permission below). If there is anything you would like to keep private in your response please indicate that in your answer. This information will be used solely for improving my services and creating appropriate testimonials.</p>
-                                    </div>
+                    <p><strong>Your Privacy:</strong> I will only use your first name and age (if you provide permission below). Your full responses will remain confidential and be used solely for improving my services and creating appropriate testimonials.</p>
+                </div>
             </div>
 
             <div class="section">
@@ -537,16 +551,16 @@
                 <div class="signature-row">
                     <div class="signature-group">
                         <label style="color: #3a3939; font-weight: 600;">Client Signature</label>
-                        <div class="signature-line"></div>
+                        <input type="text" name="clientSignature" class="signature-input" placeholder="Type your full name here">
                     </div>
                     <div class="signature-group">
                         <label style="color: #3a3939; font-weight: 600;">Date</label>
-                        <div class="signature-line"></div>
+                        <input type="date" name="signatureDate" class="signature-input">
                     </div>
                 </div>
             </div>
 
-            <button class="print-btn" onclick="window.print()">Print Form</button>
+            <button class="print-btn" onclick="handlePrint()">Print Form</button>
         </div>
     </div>
 
@@ -590,7 +604,23 @@
                     }
                 });
             });
+
+            // Auto-populate today's date
+            const dateInput = document.querySelector('input[name="signatureDate"]');
+            if (dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.value = today;
+            }
         });
+
+        // Enhanced print function
+        function handlePrint() {
+            // Save current values before printing
+            const formData = new FormData(document.querySelector('form') || document.body);
+            
+            // Trigger print dialog
+            window.print();
+        }
     </script>
 </body>
 </html>
