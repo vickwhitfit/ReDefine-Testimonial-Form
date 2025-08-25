@@ -567,21 +567,21 @@
                 <div class="checkbox-group">
                     <input type="checkbox" id="permitTestimonial" name="permitTestimonial">
                     <label for="permitTestimonial">
-                        <strong>Yes, I give permission</strong> for you to use my responses (or parts of them) as testimonials on social media, website, and marketing materials.
+                        <strong>Yes, I give permission</strong> for ReDefine Fitness to use my responses (or parts of them) as testimonials on social media, website, and marketing materials.
                     </label>
                 </div>
 
                 <div class="checkbox-group">
                     <input type="checkbox" id="permitName" name="permitName">
                     <label for="permitName">
-                        <strong>Yes, I give permission</strong> for you to use my first name in testimonials.
+                        <strong>Yes, I give permission</strong> for ReDefine Fitness to use my first name in testimonials.
                     </label>
                 </div>
 
                 <div class="checkbox-group">
                     <input type="checkbox" id="permitAge" name="permitAge">
                     <label for="permitAge">
-                        <strong>Yes, I give permission</strong> for you to include my age in testimonials.
+                        <strong>Yes, I give permission</strong> for ReDefine Fitness to include my age in testimonials.
                     </label>
                 </div>
             </div>
@@ -689,23 +689,75 @@
 
         // Email form function
         function emailForm() {
+            // Validate required fields first
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            if (!firstName || !lastName || !email) {
+                alert('Please fill in the required fields (First Name, Last Name, Email) before submitting.');
+                return;
+            }
+            
             const formData = collectFormData();
-            const subject = encodeURIComponent("ReDefine Fitness - Completed Testimonial Form");
+            const subject = encodeURIComponent("ReDefine Fitness - Completed Testimonial Form - " + firstName + " " + lastName);
             const body = encodeURIComponent(formData);
             
             // Replace with your actual email address
             const yourEmail = "vawhite.14@gmail.com";
             
-            // Create mailto link
-            const mailtoLink = `mailto:${yourEmail}?subject=${subject}&body=${body}`;
+            // For testing, let's also show the data in an alert
+            console.log("Form data being sent:", formData);
             
-            // Try to open email client
-            if (mailtoLink.length < 2048) { // URL length limit
-                window.location.href = mailtoLink;
-            } else {
-                // If too long, show instructions
-                alert("Form data is too large for direct email. Please:\n\n1. Save as PDF using the blue button\n2. Email the PDF file to: " + yourEmail.replace("your-email@redefinefitness.com", "your actual email"));
+            // Try multiple approaches for better compatibility
+            try {
+                // Method 1: Direct mailto (preferred)
+                if (body.length < 1800) { // Conservative limit
+                    const mailtoLink = `mailto:${yourEmail}?subject=${subject}&body=${body}`;
+                    window.open(mailtoLink, '_blank');
+                } else {
+                    // Method 2: Copy to clipboard and show instructions
+                    copyToClipboard(formData, yourEmail, firstName + " " + lastName);
+                }
+            } catch (error) {
+                // Method 3: Fallback - show data in alert
+                alert("Email client couldn't open automatically. Here's your form data:\n\n" + formData + "\n\nPlease copy this text and email it to: " + yourEmail);
             }
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(formData, email, clientName) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(formData).then(() => {
+                    alert(`✅ Form data copied to clipboard!\n\nNext steps:\n1. Open your email app\n2. Send to: ${email}\n3. Subject: ReDefine Fitness Testimonial - ${clientName}\n4. Paste the form data (Ctrl+V or Cmd+V)`);
+                }).catch(() => {
+                    showFormData(formData, email);
+                });
+            } else {
+                showFormData(formData, email);
+            }
+        }
+        
+        // Show form data function
+        function showFormData(formData, email) {
+            const popup = window.open('', '_blank', 'width=600,height=700,scrollbars=yes');
+            popup.document.write(`
+                <html>
+                <head><title>Your Completed Form</title></head>
+                <body style="font-family: Arial; padding: 20px; line-height: 1.6;">
+                    <h2>📧 Email this to your trainer:</h2>
+                    <p><strong>To:</strong> ${email}</p>
+                    <p><strong>Subject:</strong> ReDefine Fitness - Completed Testimonial Form</p>
+                    <hr>
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 5px;">
+                        <pre style="white-space: pre-wrap; word-wrap: break-word;">${formData}</pre>
+                    </div>
+                    <hr>
+                    <button onclick="window.print()" style="background: #df9959; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Print This</button>
+                    <button onclick="window.close()" style="background: #3a3939; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;">Close</button>
+                </body>
+                </html>
+            `);
         }
 
         // Save as PDF function (instructions)
@@ -728,9 +780,14 @@
             
             // Personal Information
             data.push("PERSONAL INFORMATION:");
-            data.push(`Name: ${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`);
-            data.push(`Age: ${document.getElementById('age').value || 'Not provided'}`);
-            data.push(`Email: ${document.getElementById('email').value}\n`);
+            const firstName = document.getElementById('firstName').value || '[Not provided]';
+            const lastName = document.getElementById('lastName').value || '[Not provided]';
+            const age = document.getElementById('age').value || '[Not provided]';
+            const email = document.getElementById('email').value || '[Not provided]';
+            
+            data.push(`Name: ${firstName} ${lastName}`);
+            data.push(`Age: ${age}`);
+            data.push(`Email: ${email}\n`);
             
             // Feedback Questions
             data.push("FEEDBACK RESPONSES:");
@@ -746,21 +803,30 @@
             ];
             
             questions.forEach(q => {
-                const value = document.querySelector(`textarea[name="${q.name}"]`).value;
-                if (value.trim()) {
-                    data.push(`${q.label}\n${value}\n`);
-                }
+                const element = document.querySelector(`textarea[name="${q.name}"]`);
+                const value = element ? element.value.trim() : '';
+                data.push(`\n${q.label}`);
+                data.push(value || '[No response provided]');
             });
             
             // Permissions
-            data.push("PERMISSIONS:");
-            data.push(`Testimonial use: ${document.getElementById('permitTestimonial').checked ? 'YES' : 'NO'}`);
-            data.push(`Use first name: ${document.getElementById('permitName').checked ? 'YES' : 'NO'}`);
-            data.push(`Include age: ${document.getElementById('permitAge').checked ? 'YES' : 'NO'}`);
+            data.push("\n\nPERMISSIONS:");
+            const permitTestimonial = document.getElementById('permitTestimonial');
+            const permitName = document.getElementById('permitName');
+            const permitAge = document.getElementById('permitAge');
+            
+            data.push(`Testimonial use: ${permitTestimonial && permitTestimonial.checked ? 'YES' : 'NO'}`);
+            data.push(`Use first name: ${permitName && permitName.checked ? 'YES' : 'NO'}`);
+            data.push(`Include age: ${permitAge && permitAge.checked ? 'YES' : 'NO'}`);
             
             // Signature
-            data.push(`\nSignature: ${document.querySelector('input[name="clientSignature"]').value}`);
-            data.push(`Date: ${document.querySelector('input[name="signatureDate"]').value}`);
+            const signature = document.querySelector('input[name="clientSignature"]');
+            const signatureDate = document.querySelector('input[name="signatureDate"]');
+            
+            data.push(`\nSignature: ${signature ? signature.value : '[Not signed]'}`);
+            data.push(`Date: ${signatureDate ? signatureDate.value : '[No date]'}`);
+            
+            data.push(`\n\nForm submitted: ${new Date().toLocaleString()}`);
             
             return data.join('\n');
         }
